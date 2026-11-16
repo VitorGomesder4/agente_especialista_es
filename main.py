@@ -90,6 +90,12 @@ plt.title(f"Confusion Matrix de base tamanho de entrada: {tamanho}")
 plt.show()
 
 
+plt.figure(figsize=(18, 15))
+plot_tree(modelo_tree, feature_names=list(X.columns),
+          class_names=list(modelo_tree.classes_), filled=True)
+plt.show()
+
+
 
 novos_casos = [
     {"temperatura_motor": 60, "nivel_oleo": 40},     #Deve ser "normal"

@@ -85,6 +85,7 @@ matriz = confusion_matrix(y_teste, predict, labels=classes)
 
 print(pd.DataFrame(matriz, index=classes, columns=classes))
 
+"""
 ConfusionMatrixDisplay(matriz, display_labels=classes).plot(cmap="Blues", colorbar=False)
 plt.title(f"Confusion Matrix de base tamanho de entrada: {tamanho}")
 plt.show()
@@ -94,7 +95,7 @@ plt.figure(figsize=(18, 15))
 plot_tree(modelo_tree, feature_names=list(X.columns),
           class_names=list(modelo_tree.classes_), filled=True)
 plt.show()
-
+"""
 
 
 novos_casos = [
@@ -111,3 +112,48 @@ novos_casos_predict = modelo_tree.predict(novos_casos)
 print(f"Previsões: {novos_casos_predict} == Must_Resultados: {must_resultados}")
 
 print(f"Acurracy dos novos casos: {accuracy_score(must_resultados, novos_casos_predict):.1%}")
+
+
+# Definição da Base de Conhecimento do sistema especialista
+regras = [
+    {
+        "id": "R1",
+        "estado": "Normal",
+        "acao": "Veículo em condições normais de funcionamento."
+    },
+    {
+        "id": "R2",
+        "estado": "Atenção",
+        "acao": "Recomenda-se verificar as condições do motor e realizar manutenção preventiva."
+    },
+    {
+        "id": "R3",
+        "estado": "Problema",
+        "acao": "Recomenda-se realizar uma inspeção mecânica para identificar possíveis falhas."
+    },
+    {
+        "id": "R4",
+        "estado": "Problema crítico",
+        "acao": "Interromper o uso do veículo e procurar assistência mecânica imediatamente."
+    }
+]
+
+
+# Motor de Inferência
+def aplicar_regras(estado):
+    for regra in regras:
+
+        # Verifica se existe uma regra correspondente ao estado previsto
+        if regra["estado"] == estado:
+            return {
+                "estado_previsto": estado,
+                "regra": regra["id"],
+                "recomendacao": regra["acao"],
+                "explicacao": (
+                    f"O sistema classificou o veículo como: {estado}."
+                )
+            }
+
+    raise ValueError("Nenhuma regra compatível com o estado previsto.")
+
+

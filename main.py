@@ -157,3 +157,50 @@ def aplicar_regras(estado):
     raise ValueError("Nenhuma regra compatível com o estado previsto.")
 
 
+# Integração do modelo de Machine Learning com o Sistema Especialista
+def diagnosticar_veiculo(temperatura, nivel_oleo):
+
+    # Validação dos dados de entrada
+    if not 0 <= temperatura <= 120:
+        raise ValueError("Temperatura deve estar entre 0 e 120 C.")
+
+    if not 0 <= nivel_oleo <= 100:
+        raise ValueError("Nível de óleo deve estar entre 0 e 100%.")
+
+    # Criação do DataFrame para alimentar o modelo
+    novo_caso = pd.DataFrame([{
+        "temperatura_motor": temperatura,
+        "nivel_oleo": nivel_oleo
+    }])
+
+    # 1. Classificação pelo modelo de Machine Learning
+    estado = modelo_tree.predict(novo_caso)[0]
+
+    # 2. Inferência utilizando a base de conhecimento
+    resultado = aplicar_regras(estado)
+
+    # 3. Verificação se os dados estão dentro dos intervalos de treinamento
+    fora = any(
+        not X_treino[c].min() <= novo_caso[c].iloc[0] <= X_treino[c].max()
+        for c in X.columns
+    )
+
+    # Adição de um aviso sobre o resultado
+    resultado["aviso"] = (
+        "Entrada fora dos intervalos observados no treinamento."
+        if fora else "Diagnóstico didático; recomenda-se avaliação mecânica."
+    )
+
+    return resultado
+
+
+# Definição das variáveis de entrada para uma consulta simulada
+temperatura = 60
+nivel_oleo = 40
+
+# Execução da consulta chamando a função integradora do sistema
+resultado = diagnosticar_veiculo(temperatura, nivel_oleo)
+
+# Exibição detalhada de cada atributo retornado pelo motor de inferência
+for campo, valor in resultado.items():
+    print(f"{campo}: {valor}")

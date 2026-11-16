@@ -106,6 +106,10 @@ Os dados são puramente artificiais e foram gerados pelo script apenas para demo
 
 ![Matriz de Confusão](./assets/Figure_1.jpeg)
 
+### Grafico da arvore
+
+![Grafico da arvore](./assets/arvore.png)
+
 ### Interpretação dos resultados
 A acurácia representa a proporção de previsões corretas realizadas pelo modelo em relação aos resultados reais (y_teste). Neste treinamento, o modelo obteve 100% de acurácia, indicando que todas as previsões corresponderam aos rótulos esperados.
 

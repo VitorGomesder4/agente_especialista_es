@@ -1,3 +1,8 @@
+# COLAB NOTEBOOK COM CODIGO EXECUTADO
+
+## [Link do Colab](https://colab.research.google.com/drive/17Y9_gdAE6yao8T3JTrX3RAzmFSPWZT5r?usp=sharing)
+
+
 # Agente Especialista Mecânico
 
 ## 1. Problema escolhido, entradas, rótulo e recomendação
